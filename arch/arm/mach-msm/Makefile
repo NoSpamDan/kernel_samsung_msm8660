@@ -356,4 +356,4 @@ ifdef CONFIG_BT_BCM4330
 obj-$(CONFIG_BT_BCM4330) += board-bluetooth-bcm4330.o
 endif
 
-obj-$(CONFIG_ARCH_RANDOM) += early_random.o
+obj-$(CONFIG_MSM_MPDEC) += msm_mpdecision.o
