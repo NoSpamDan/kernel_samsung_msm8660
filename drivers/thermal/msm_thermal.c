@@ -14,6 +14,7 @@
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/module.h>
+#include <linux/moduleparam.h>
 #include <linux/mutex.h>
 #include <linux/msm_tsens.h>
 #include <linux/workqueue.h>
@@ -34,6 +35,8 @@
 static DEFINE_MUTEX(emergency_shutdown_mutex);
 
 static int enabled;
+unsigned long temp = 0;
+module_param(temp, ulong, 0444);
 
 //Throttling indicator, 0=not throttled, 1=low, 2=mid, 3=max
 int bricked_thermal_throttled = 0;
@@ -170,7 +173,6 @@ static void check_temp(struct work_struct *work)
 {
     struct cpufreq_policy *cpu_policy = NULL;
     struct tsens_device tsens_dev;
-    unsigned long temp = 0;
     uint32_t max_freq = 0;
     bool update_policy = false;
     int i = 0, cpu = 0, ret = 0;
