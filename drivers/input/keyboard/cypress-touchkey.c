@@ -155,11 +155,10 @@ static u8 firm_version = 0;
 int s2w_switch = 0;
 int s2w_count = 0;
 int s2w_start = 0;
-int dt2w_switch = 0;
-int dt2s_switch = 0;
+int dt2w_switch = 2;
+int dt2s_switch = 2;
 int dt2w_start = 0;
 int dt2w_count = 0;
-int pocket_detect = 0;
 bool scr_suspended = false, exec_count = true;
 bool scr_on_touch = false, barrier[2] = {false, false};
 static struct input_dev * sweep2wake_pwrdev;
@@ -447,7 +446,7 @@ void touchkey_resume_func(struct work_struct *p)
 //	int rc = 0;
 
 #ifdef CONFIG_TOUCH_CYPRESS_SWEEP2WAKE
-	if (s2w_switch || dt2w_switch) {
+	if (s2w_switch || dt2w_switch || dt2s_switch) {
 		disable_irq_wake(IRQ_TOUCHKEY_INT);		
 	} else {
 #endif
@@ -1097,7 +1096,7 @@ if(touchled_cmd_reversed) {
 	|| defined (CONFIG_USA_MODEL_SGH_T769)|| defined(CONFIG_USA_MODEL_SGH_I577)|| defined(CONFIG_CAN_MODEL_SGH_I577R)\
 	|| defined(CONFIG_USA_MODEL_SGH_I757) || defined(CONFIG_CAN_MODEL_SGH_I757M)
 #ifdef CONFIG_TOUCH_CYPRESS_SWEEP2WAKE
-	if (s2w_switch || dt2w_switch) {
+	if (s2w_switch || dt2w_switch || dt2s_switch) {
 		disable_irq_wake(IRQ_TOUCHKEY_INT);
 	} else {
 #endif
