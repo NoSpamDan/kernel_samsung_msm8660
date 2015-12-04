@@ -36,7 +36,7 @@ static DEFINE_MUTEX(emergency_shutdown_mutex);
 
 static int enabled;
 unsigned long temp = 0;
-module_param(temp, ulong, 0444);
+module_param(temp, bool, 0444);
 
 //Throttling indicator, 0=not throttled, 1=low, 2=mid, 3=max
 int bricked_thermal_throttled = 0;
