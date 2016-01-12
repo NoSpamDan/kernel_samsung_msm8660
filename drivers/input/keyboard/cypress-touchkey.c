@@ -159,6 +159,7 @@ int dt2w_switch = 0;
 int dt2s_switch = 0;
 int dt2w_start = 0;
 int dt2w_count = 0;
+int pocket_detect = 1;
 bool scr_suspended = false, exec_count = true;
 bool scr_on_touch = false, barrier[2] = {false, false};
 static struct input_dev * sweep2wake_pwrdev;
@@ -202,11 +203,18 @@ static void sweep2wake_presspwr(struct work_struct * sweep2wake_presspwr_work) {
 static DECLARE_WORK(sweep2wake_presspwr_work, sweep2wake_presspwr);
 
 void sweep2wake_pwrtrigger(void) {
-	if (mutex_trylock(&pwrkeyworklock)) {
-		schedule_work(&sweep2wake_presspwr_work);
-		mutex_unlock(&pwrkeyworklock);
+	bool in_pocket = false;
+
+	if (scr_suspended && pocket_detect)
+		in_pocket = gp2a_in_pocket();
+
+	if (!in_pocket) {
+		if (mutex_trylock(&pwrkeyworklock)) {
+			schedule_work(&sweep2wake_presspwr_work);
+			mutex_unlock(&pwrkeyworklock);
+		}
+		return;
 	}
-	return;
 }
 #endif
 
